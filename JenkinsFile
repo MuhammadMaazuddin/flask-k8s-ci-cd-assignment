@@ -1,26 +1,40 @@
 pipeline {
     agent any
+
+    environment {
+        IMAGE_NAME = "flask-k8s"
+        IMAGE_TAG = "latest"
+    }
+
     stages {
+
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker build -t flask-app:latest .'
-                }
+                echo "Building Docker image..."
+                sh '''
+                    eval $(minikube docker-env)
+                    docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                '''
             }
         }
+
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    sh 'kubectl apply -f kubernetes/deployment.yaml'
-                    sh 'kubectl apply -f kubernetes/service.yaml'
-                }
+                echo "Deploying to Kubernetes..."
+                sh '''
+                    kubectl apply -f kubernetes/
+                '''
             }
         }
+
         stage('Verify Deployment') {
             steps {
-                script {
-                    sh 'kubectl get pods,services'
-                }
+                echo "Checking rollout status..."
+                sh '''
+                    kubectl rollout status deployment/flask-app
+                    kubectl get pods
+                    kubectl get services
+                '''
             }
         }
     }
