@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: flask-service
 spec:
-  type: NodePort # load balancing (round-robin)
+  type: NodePort     # load balancing (round-robin)
   selector:
     app: flask-app
   ports:
-    - port: 5000
+    - protocol: TCP
+      port: 5000
       targetPort: 5000
-      nodePort: 32000 # change if you want
+      nodePort: 32000
