@@ -2,11 +2,8 @@ name: CI
 
 on:
   push:
-    branches: ["*"] # Trigger on push to any branch
-  pull_request:
-    branches: ["*"] # Trigger on PR to any branch
-  workflow_dispatch: # Allow manual runs
-
+    branches:
+      - "*"  # Trigger on push to any branch
 
 jobs:
   build:
@@ -26,6 +23,7 @@ jobs:
       - name: Lint code with flake8
         run: |
           pip install flake8
+          echo "Running flake8 with ignore rules"
           flake8 --max-line-length=90 --ignore=E302,E305 app.py
 
       - name: Run unit tests
