@@ -8,30 +8,14 @@ pipeline {
 
     stages {
 
-        stage('Start Minikube') {
-            steps {
-                echo "Starting Minikube..."
-                sh '''
-                    # Start Minikube with Docker driver
-                    minikube start --driver=docker
-                '''
-            }
-        }
-
-        stage('Configure Docker for Minikube') {
-            steps {
-                echo "Configuring Docker to use Minikube's Docker daemon..."
-                sh '''
-                    # Set environment variables for Docker to point to Minikube
-                    eval $(minikube -p minikube docker-env)
-                '''
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image inside Minikube..."
+                echo "Building Docker image in local Minikube..."
                 sh '''
+                    # Make sure Docker uses Minikube's daemon
+                    eval $(minikube docker-env)
+                    
+                    # Build the image
                     docker build -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
