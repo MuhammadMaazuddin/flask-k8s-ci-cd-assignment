@@ -1,12 +1,3 @@
----
-
-````md
-# Flask K8s CI/CD Assignment
-
-This project demonstrates a complete **CI/CD pipeline** for deploying a Flask application to **Kubernetes** using **Docker**, **Jenkins**, and **K8s deployment strategies** such as automated rollouts, scaling, and load balancing.
-
----
-
 ## 🚀 Project Overview
 
 This repository contains a simple **Flask REST API** containerized using Docker and deployed on a Kubernetes cluster.  
